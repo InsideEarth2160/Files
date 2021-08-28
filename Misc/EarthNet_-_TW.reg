@@ -1,0 +1,7 @@
+REGEDIT4
+
+[HKEY_CURRENT_USER\Software\Reality Pump\Earth2160\Network]
+"EarthNet_ServersAddresses"="\"EarthNet"\"netserver.earth2160.com""
+"EarthNet_NATResolverAddress"="netserver.earth2160.com:17142"
+"LastProvider"=hex:00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00
+"EarthNet_ServerPort"=dword:000042f5
