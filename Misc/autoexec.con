@@ -1,0 +1,16 @@
+graph.zoom.max=150.0
+graph.zoom.min=0.0
+graph.viewangle.min=0.0
+graph.viewangle.max=1.35
+graph.cursor.size=40
+graph.limited.view=1
+graphrate=144
+animbutton.useconsole=1
+animbutton.speedalpha=0.01
+animbutton.x=0
+animbutton.y=0.4
+animbutton.z=6
+animbutton.beta=0.7
+graph.mesh.perspective=4
+display.show=0
+console.help
