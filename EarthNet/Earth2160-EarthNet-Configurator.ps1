@@ -8,7 +8,7 @@ if (-NOT ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdenti
 ##
 write-host "== Checking Firewall Rules=="
 $firewallProtocolTCP = "TCP"
-$firewallPortTCP = "47624,2300-2400"
+$firewallPortTCP = "47624,6073,2300-2400"
 $firewallRuleNameTCP = "Earth2160_DirectPlay_TCP"
 
 write-host "  Checking for '$firewallRuleNameTCP' firewall rule with protocol '$firewallProtocolTCP' now...."
