@@ -24,7 +24,7 @@ write-host "  Firewall rule for '$firewallRuleNameTCP' with '$firewallProtocolTC
 };
 
 $firewallProtocolUDP = "UDP"
-$firewallPortUDP = "47624,2300-2400"
+$firewallPortUDP = "47624,6073,2300-2400"
 $firewallRuleNameUDP = "Earth2160_DirectPlay_UDP"
 
 write-host "  Checking for '$firewallRuleNameUDP' firewall rule with protocol '$firewallProtocolUDP' now...."
