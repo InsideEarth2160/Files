@@ -10,7 +10,7 @@ write-host "== Checking Firewall Rules =="
 
 # TCP Firewall Rule
 $firewallProtocolTCP = "TCP"
-$firewallPortTCP = @('6073','2300:2400','17771-17772','17172')
+$firewallPortTCP = @('6073','2300-2400','17771-17772','17172')
 $firewallRuleNameTCP = "Earth2160_DirectPlay_TCP"
 
 write-host "  Checking for '$firewallRuleNameTCP' firewall rule with protocol '$firewallProtocolTCP' now...."
@@ -27,7 +27,7 @@ else
 
 # UDP Firewall Rule
 $firewallProtocolUDP = "UDP"
-$firewallPortUDP = @('6073','2300:2400','17771-17772','17172')
+$firewallPortUDP = @('6073','2300-2400','17771-17772','17172')
 $firewallRuleNameUDP = "Earth2160_DirectPlay_UDP"
 
 write-host "  Checking for '$firewallRuleNameUDP' firewall rule with protocol '$firewallProtocolUDP' now...."
