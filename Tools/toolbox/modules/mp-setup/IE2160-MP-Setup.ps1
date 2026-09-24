@@ -1,4 +1,4 @@
-﻿# =====================================================================
+# =====================================================================
 #   InsideEARTH - Earth 2160 Multiplayer Setup v1.0
 # =====================================================================
 
@@ -41,7 +41,7 @@ $Subnet          = '10.21.60.0/24'
 $SubnetAliases   = @($Subnet, ($Subnet -replace '/24', '/255.255.255.0'))
 
 # Construct the formatted registry string for IP checking
-$addressIpFormatted = '"EarthNet - InsideEarth""netserver2160.insideearth.info""EarthNet - Topware""netserver.earth2160.com"'
+$addressIpFormatted = '"EarthNet - TopWare""netserver.earth2160.com""EarthNet - InsideEarth""netserver2160.insideearth.info"'
 
 # Display Banner First
 Write-Host

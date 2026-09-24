@@ -1,4 +1,4 @@
-﻿@echo off
+@echo off
 
 rem =====================================================================
 rem  InsideEARTH - Earth 2160 Levels Downloader Launcher.

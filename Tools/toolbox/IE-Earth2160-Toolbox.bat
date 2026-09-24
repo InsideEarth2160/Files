@@ -1,4 +1,4 @@
-﻿@echo off
+@echo off
 
 rem =====================================================================
 rem  InsideEarth - Earth 2160 Toolbox Launcher.
