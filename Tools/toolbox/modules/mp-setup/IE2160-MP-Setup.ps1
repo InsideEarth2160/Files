@@ -41,7 +41,7 @@ $Subnet          = '10.21.60.0/24'
 $SubnetAliases   = @($Subnet, ($Subnet -replace '/24', '/255.255.255.0'))
 
 # Construct the formatted registry string for IP checking
-$addressIpFormatted = '"EarthNet - TopWare""netserver.earth2160.com""EarthNet - InsideEarth""netserver2160.insideearth.info"'
+$addressIpFormatted = '"EarthNet""netserver.earth2160.com""EarthNet - InsideEarth""netserver2160.insideearth.info"'
 
 # Display Banner First
 Write-Host
@@ -168,10 +168,22 @@ if (-not $needsRegUpdate) {
 Write-Host
 Write-Host " [3/3] Configuring Windows Firewall Rules..." -ForegroundColor Cyan
 
+# One-time cleanup of the old single-port rules this replaces, so re-running
+# the updated script doesn't leave orphaned "IE2160 - ..." entries
+# behind in Windows Firewall alongside the new "Earth2160 - ..." ones.
+$oldFwRuleNames = @(
+    'IE2160 - Server Port (TCP 17171)',
+    'IE2160 - Game Port (UDP 17771)',
+    'IE2160 - ICMPv4 Allow Subnet'
+)
+foreach ($oldName in $oldFwRuleNames) {
+    Get-NetFirewallRule -DisplayName $oldName -ErrorAction SilentlyContinue | Remove-NetFirewallRule -ErrorAction SilentlyContinue
+}
+
 $fwRules = @(
-    @{ Name = 'IE2160 - Server Port (TCP 17171)'; Protocol = 'TCP'; LocalPort = '17171'; RemoteAddress = $Subnet },
-    @{ Name = 'IE2160 - Game Port (UDP 17771)';     Protocol = 'UDP'; LocalPort = '17771';   RemoteAddress = $Subnet },
-    @{ Name = 'IE2160 - ICMPv4 Allow Subnet';             Protocol = 'ICMPv4'; RemoteAddress = $Subnet }
+    @{ Name = 'Earth2160 - TCP Ports'; Protocol = 'TCP'; LocalPort = @('17771-17772', '17172', '2300-2400'); RemoteAddress = $Subnet },
+    @{ Name = 'Earth2160 - UDP Ports'; Protocol = 'UDP'; LocalPort = @('17771-17772', '17172', '6073', '2300-2400'); RemoteAddress = $Subnet },
+    @{ Name = 'Earth2160 - ICMPv4 Allow Subnet'; Protocol = 'ICMPv4'; RemoteAddress = $Subnet }
 )
 
 function Set-IE2160FirewallRules {
