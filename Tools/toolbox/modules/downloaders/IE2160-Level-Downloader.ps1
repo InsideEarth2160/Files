@@ -1,5 +1,5 @@
 # =====================================================================
-#   InsideEARTH - Earth 2160 Levels Downloader v1.0
+#   InsideEARTH - Earth 2160 Levels Downloader v1.1
 # =====================================================================
 
 # ---------------------------------------------------------------------
@@ -35,15 +35,6 @@ $ErrorActionPreference = 'Stop'
 # The PS 5.1 progress bar is the main cause of slow Invoke-WebRequest / Expand-Archive.
 $ProgressPreference = 'SilentlyContinue'
 
-# Define supported games/variants and their registry paths
-$games = @(
-    @{
-        Name     = 'Earth 2160'
-        RegPath  = 'HKCU:\Software\Reality Pump\Earth2160\FileSystem'
-        RegValue = "datapath"
-    }
-)
-
 $downloadUrl = "https://github.com/InsideEarth2160/Levels/archive/refs/heads/main.zip"
 $galleryUrl  = 'https://insideearth2160.github.io/Levels-Gallery/'
 
@@ -55,7 +46,7 @@ while ($true) {
     Clear-Host
 
     Write-Host "===================================================" -ForegroundColor Green
-    Write-Host "  InsideEARTH - Earth 2160 Levels Downloader v1.0" -ForegroundColor Green
+    Write-Host "  InsideEARTH - Earth 2160 Levels Downloader v1.1" -ForegroundColor Green
     Write-Host "===================================================" -ForegroundColor Green
     Write-Host
 
@@ -63,56 +54,26 @@ while ($true) {
     $tempExtractPath = Join-Path $env:TEMP "IE2160_Levels_Extract_$(Get-Random)"
 
     try {
-        Write-Host "Detecting installed Earth 2160 install(s)..." -ForegroundColor Cyan
-        $installedGames = @()
+        # Levels always go to Documents\Earth 2160\Levels (follows OneDrive-redirected Documents)
+        $docsRoot  = Join-Path ([Environment]::GetFolderPath('MyDocuments')) 'Earth 2160'
+        $levelsDir = Join-Path $docsRoot 'Levels'
 
-        foreach ($game in $games) {
-            if (Test-Path $game.RegPath) {
-                $rawPath = (Get-ItemProperty -Path $game.RegPath -Name $game.RegValue -ErrorAction SilentlyContinue).$($game.RegValue)
-
-                if ($rawPath) {
-                    $cleanPath = $rawPath -replace '[^\x20-\x7E]', ''
-                    $cleanPath = $cleanPath -replace '[><|?"*]', ''
-                    $cleanPath = $cleanPath.Trim().Trim('"').Trim("'").TrimEnd('\', '/')
-
-                    if (-not [string]::IsNullOrWhiteSpace($cleanPath) -and (Test-Path -Path $cleanPath)) {
-                        $installedGames += [PSCustomObject]@{
-                            Name     = $game.Name
-                            RootPath = $cleanPath
-                        }
-                    }
-                }
-            }
-        }
-
-        if ($installedGames.Count -eq 0) {
-            Write-Warning "No installed Earth 2160 games were found in the registry."
-            Write-Host "Run Registry Tools first to set the install path, then try again." -ForegroundColor Yellow
-            Read-Host "`nPress Enter to exit..."
-            break
-        }
-
-        Write-Host "`nFound the following installed games:" -ForegroundColor Green
-        for ($i = 0; $i -lt $installedGames.Count; $i++) {
-            Write-Host " [$($i + 1)] $($installedGames[$i].Name)"
-        }
-        $exitOptionIndex = $installedGames.Count + 1
+        Write-Host "Levels will be installed to:" -ForegroundColor Cyan
+        Write-Host "  $levelsDir" -ForegroundColor White
         Write-Host ""
-        Write-Host " [$exitOptionIndex] Exit" -ForegroundColor Red
+        Write-Host " [1] Download and install levels"
+        Write-Host " [2] Exit" -ForegroundColor Red
 
         $selection = 0
-        while ($selection -lt 1 -or $selection -gt $exitOptionIndex) {
-            $inputVal = Read-Host "`nSelect a game (1-$exitOptionIndex)"
+        while ($selection -lt 1 -or $selection -gt 2) {
+            $inputVal = Read-Host "`nSelect an option (1-2)"
             [int]::TryParse($inputVal, [ref]$selection) | Out-Null
         }
 
-        if ($selection -eq $exitOptionIndex) {
+        if ($selection -eq 2) {
             Write-Host "`nExiting..." -ForegroundColor Yellow
             break
         }
-
-        $target = $installedGames[$selection - 1]
-        $levelsDir = Join-Path $target.RootPath "Levels"
 
         Write-Host "`nDownloading levels archive from GitHub..." -ForegroundColor Cyan
         Write-Host "  (Gallery: $galleryUrl)" -ForegroundColor DarkGray

@@ -1,5 +1,5 @@
 # =====================================================================
-#    InsideEARTH - Earth 2160 Registry Tools v1.0
+#    InsideEARTH - Earth 2160 Registry Tools v1.1
 # =====================================================================
 
 # ---------------------------------------------------------------------
@@ -97,9 +97,11 @@ $games = @(
 function Get-FileSystemPaths {
     param($Game)
     $sub = if ($Game.HasBaseGame) { 'BaseGame\FileSystem' } else { 'FileSystem' }
+    # Always join with exactly one backslash. The old code concatenated with no separator
+    # (giving 'Earth2160FileSystem' / '...BaseGame\FileSystem' glued onto the game key).
     return @(
-        "$($Game.HkcuBase)$sub",
-        "$($Game.HklmBase)$sub"
+        ($Game.HkcuBase.TrimEnd('\') + '\' + $sub),
+        ($Game.HklmBase.TrimEnd('\') + '\' + $sub)
     )
 }
 
