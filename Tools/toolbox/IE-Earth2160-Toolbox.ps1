@@ -55,23 +55,23 @@ while ($true) {
     switch ($choice) {
         "1" {
             $scriptName  = "IE2160-System-Information.ps1"
-            $apiPath     = "Tools/system/IE2160-System-Information.ps1"
-            $downloadUrl = "https://raw.githubusercontent.com/InsideEarth2160/Files/refs/heads/main/Tools/system/IE2160-System-Information.ps1"
+            $apiPath     = "Tools/toolbox/modules/system/IE2160-System-Information.ps1"
+            $downloadUrl = "https://raw.githubusercontent.com/InsideEarth2160/Files/refs/heads/main/Tools/toolbox/modules/system/IE2160-System-Information.ps1"
         }
         "2" {
             $scriptName  = "IE2160-MP-Setup.ps1"
-            $apiPath     = "Tools/mp-setup/IE2160-MP-Setup.ps1"
-            $downloadUrl = "https://raw.githubusercontent.com/InsideEarth2160/Files/refs/heads/main/Tools/mp-setup/IE2160-MP-Setup.ps1"
+            $apiPath     = "Tools/toolbox/modules/mp-setup/IE2160-MP-Setup.ps1"
+            $downloadUrl = "https://raw.githubusercontent.com/InsideEarth2160/Files/refs/heads/main/Tools/toolbox/modules/mp-setup/IE2160-MP-Setup.ps1"
         }
         "3" {
             $scriptName  = "IE2160-Level-Downloader.ps1"
-            $apiPath     = "Tools/downloaders/IE2160-Level-Downloader.ps1"
-            $downloadUrl = "https://raw.githubusercontent.com/InsideEarth2160/Files/refs/heads/main/Tools/downloaders/IE2160-Level-Downloader.ps1"
+            $apiPath     = "Tools/toolbox/modules/downloaders/IE2160-Level-Downloader.ps1"
+            $downloadUrl = "https://raw.githubusercontent.com/InsideEarth2160/Files/refs/heads/main/Tools/toolbox/modules/downloaders/IE2160-Level-Downloader.ps1"
         }
         "4" {
             $scriptName  = "IE2160-Registry-Editor.ps1"
-            $apiPath     = "Tools/registry/editor/IE2160-Registry-Editor.ps1"
-            $downloadUrl = "https://raw.githubusercontent.com/InsideEarth2160/Files/refs/heads/main/Tools/registry/editor/IE2160-Registry-Editor.ps1"
+            $apiPath     = "Tools/toolbox/modules/registry/editor/IE2160-Registry-Editor.ps1"
+            $downloadUrl = "https://raw.githubusercontent.com/InsideEarth2160/Files/refs/heads/main/Tools/toolbox/modules/registry/editor/IE2160-Registry-Editor.ps1"
         }
         "5" {
             Write-Host "`nExiting..." -ForegroundColor Yellow
