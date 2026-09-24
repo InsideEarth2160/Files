@@ -32,6 +32,9 @@ $host.ui.RawUI.WindowTitle = "InsideEARTH - Earth 2160 Levels Downloader"
 
 $ErrorActionPreference = 'Stop'
 
+# The PS 5.1 progress bar is the main cause of slow Invoke-WebRequest / Expand-Archive.
+$ProgressPreference = 'SilentlyContinue'
+
 # Define supported games/variants and their registry paths
 $games = @(
     @{
@@ -113,10 +116,19 @@ while ($true) {
 
         Write-Host "`nDownloading levels archive from GitHub..." -ForegroundColor Cyan
         Write-Host "  (Gallery: $galleryUrl)" -ForegroundColor DarkGray
-        Invoke-WebRequest -Uri $downloadUrl -OutFile $tempZipPath -UseBasicParsing
+        $curl = Get-Command curl.exe -ErrorAction SilentlyContinue
+        if ($curl) {
+            # curl.exe ships with Windows 10 1803+ and has its own fast progress meter
+            & $curl.Source -L --fail --retry 3 --progress-bar -o $tempZipPath $downloadUrl
+            if ($LASTEXITCODE -ne 0) { throw "curl.exe download failed (exit code $LASTEXITCODE)." }
+        } else {
+            # Fallback: WebClient is fast and has no progress-bar overhead
+            (New-Object Net.WebClient).DownloadFile($downloadUrl, $tempZipPath)
+        }
 
         Write-Host "Extracting..." -ForegroundColor Cyan
-        Expand-Archive -Path $tempZipPath -DestinationPath $tempExtractPath -Force
+        Add-Type -AssemblyName System.IO.Compression.FileSystem
+        [IO.Compression.ZipFile]::ExtractToDirectory($tempZipPath, $tempExtractPath)
 
         $innerFolder = Get-ChildItem -Path $tempExtractPath -Directory | Select-Object -First 1
         if (-not $innerFolder) { throw "Unexpected archive layout." }
